@@ -17,22 +17,14 @@ path = '/home/pi/Desktop/frames/'
 
 
 
-'''@app.route('/get_img', methods=['POST'])
+@app.route('/get_img', methods=['POST'])
 def draw_test():
         if request.method == 'POST':
-                print("Someone send POST request\n")
-                camera = PiCamera()
-                rawCapture = PiRGBArray(camera)
-                camera.close()
-                time.sleep(0.1)
-                camera.capture(rawCapture, format="bgr")
-                frame = rawCapture.array
-                timeNow = str(time.time())
-                cv2.imwrite('/home/pi/Desktop/frames/'+timeNow+'.jpg',frame)
-                rawCapture.truncate(0)
-                requests.post('http://localhost:5000/send_img')
+                img = np.zeros(shape=(1,1),dtype=np.uint8)
+                print("Someone send current frame request\n")
+                cv2.imwrite('/home/pi/Desktop/msg/msg.jpg',img)
                 return ""
-'''
+
 
 @app.route('/send_img', methods=['POST'])
 def send_from_folder():

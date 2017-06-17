@@ -9,8 +9,13 @@ import cv2
 
 @app.route('/main.html', methods=['GET'])
 def showCollection():
-    site = "<html><head><title>View from Camera</title></head>"
-    site += "<body><table>"
+    site = "<html><head><title>View from Camera</title>"
+    site += "<script src=http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js type=text/javascript></script>"
+    site += "</head><body>"
+    site +="<script>function SubForm(){$.ajax({url:'http://192.168.0.104:5000/get_img', type:'post'});}</script>"
+    x = "<button type=submit name=submit_param value=submit_value onclick=SubForm() class=link-button>Get current image</button>"
+    x += "<a href = main.html>Refresh content</a>"
+    site += x+"<table>"
     path = '/home/piotr/PycharmProjects/untitled3/static/'
     collection = listdir(path)
     collection.sort()
@@ -18,10 +23,10 @@ def showCollection():
     site += "<tr>"
     for node in collection:
 
-        if i % 8 == 0:
+        if i % 4 == 0:
             site += "</tr><tr>"
         if isfile(join(path, node)):
-            site += "<td><img width=160 height=120 src=" + '/static/' + node + "></td>"
+            site += "<td><img width=320 height=240 src=" + '/static/' + node + "></td>"
         else:
             subcollection = listdir(join(path, node))
             subcollection.sort()
